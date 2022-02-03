@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>SVGParser</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="CHANGE ME">
+    <meta name="keywords" content="CHANGE ME">
+    <meta name="author" content="CHANGE ME">
+    <!-- Load jquery, bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <!-- Custom CSS End -->
+</head>
+<body>
+
+  <h1 align="center"style="color:blue;">SVGParser</h1>
+
+    <!-- FileLog Panel -->
+<div id= "filePanel" class="container text-center limit-class">
+  <h2>File Log Panel</h2>
+  <table id="list1" style="width: 100%" class="table-bordered " >
+
+    <thead>
+        <tr>
+
+          <th>File name<br>(click to download)</th>
+          <th>File size</th>
+          <th>Number of<br>rectangles</th>
+          <th>Number of<br>circles</th>
+          <th>Number of<br>paths</th>
+          <th>Number of<br>groups</th>
+        </tr>
+    </thead>
+    <tbody >
+    </tbody>
+  </table>
+  </div>
+      <!-- FileLog Panel -->
+
+
+      <!-- Upload -->
+      <br>
+  <div id="upload">
+      <h3 align = "center" class = "Padding">Upload Panel</h3>
+      <div align = "center" class = "Padding">
+        <form ref='uploadForm'
+          id='uploadForm'
+          action='/upload'
+          method='post'
+          onsubmit= 'return validateForm()'
+          encType="multipart/form-data">
+          <input type="file" name="uploadFile"required />
+          <input type='submit' value='Upload!' />
+        </form>
+      </div>
+  </div>
+  <br>
+
+      <!-- Upload -->
+
+
+
+      <div align = "center" class="dropdown Padding">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+              Select your file
+          </button>
+          <div id = 'dropdownList' class="dropdown-menu smallScroll">
+          </div>
+      </div>
+      <br>
+
+
+      <br>
+      <div id= "SVGPanel" class="container text-center limit-class">
+        <h2>SVG View Panel</h2>
+
+
+
+
+        <table id="list2" style="width: 100%" class="table-bordered" >
+
+          <thead >
+              <tr>
+
+                <th>Component</th>
+                <th>Summary</th>
+                <th>OtherAttributes</th>
+
+              </tr>
+          </thead>
+          <tbody id = "list3" >
+
+
+          </tbody>
+        </table>
+        </div>
+    <div id= "SVGPaneltd" class="container text-center limit-class">
+        <table id="list2.1" style="width: 100%" class="table-bordered" >
+
+          <thead >
+              <tr>
+
+                <th>Title</th>
+                <th>Description</th>
+              </tr>
+          </thead>
+          <tbody >
+
+
+          </tbody>
+        </table>
+        </div>
+
+        <div class="form__group field">
+          <input type="input" class="form__field" placeholder="" id='displayt' required />
+        </div>
+
+
+
+   <!--  textbox for show Attributes -->
+
+
+  <h1 align="center"style="color:black;">Show Attributes</h1>
+   <div class="form__group field">
+     <input type="text" placeholder="Enter an element..." id="myInput">
+     <button type="button" onclick="getInputValue();">Submit</button>
+   </div>
+
+   <h1 align="center"style="color:black;">Edit Attribute</h1>
+    <div class="form__group field">
+      <input type="text" placeholder="Enter an attribute to edit..." id="editAttributes">
+      <button type="button" onclick="editAtt();">Submit</button>
+    </div>
+
+
+    <h1 align="center"style="color:black;">Edit Title/Description</h1>
+     <div class="form__group field">
+       <input type="text" placeholder="Enter a title/description to edit..." id="editTD">
+       <button type="button" onclick="editTD();">Submit</button>
+     </div>
+
+
+
+   <div class="form__group field">
+     <h1 align="center"style="color:blue;">Display Panel</h1>
+     <input type="input" class="form__field" placeholder="Things will be displayed here" id='display' required />
+   </div>
+
+
+<!-- end    -->
+
+
+<br>
+<h4>Create SVG</h4>
+<form class = "extraPadding" >
+  <div class="form-group">
+  <label for="uid">Namespace</label>
+  <input type="text" class="form-control" id="uid" placeholder="" required >
+  </div>
+  <br>
+
+  <div class="form-group">
+  <label for="uid">Title</label>
+  <input type="text" class="form-control" id="uid" placeholder="" required >
+  </div>
+  <br>
+
+  <div class="form-group">
+  <label for="uid">Description</label>
+  <input type="text" class="form-control" id="uid" placeholder="" required >
+  </div>
+  <br>
+
+  <button type="button" onclick="createSVG();">Create</button>
+
+
+
+
+  <br>
+  <h4>Add Shape</h4>
+  <form class = "extraPadding" >
+    <div class="form-group">
+    <label for="uid">Enter the file you want to edit</label>
+    <input type="text" class="form-control" id="shape" placeholder="" required >
+    </div>
+    <br>
+
+    <div class="form-group">
+    <label for="uid">Enter the shape type (circle, rectangle ,etc)</label>
+    <input type="text" class="form-control" id="type" placeholder="" required >
+    </div>
+    <br>
+
+    <h4>Add Circle</h4>
+
+    <div class="form-group">
+    <label for="uid">x</label>
+    <input type="text" class="form-control" id="uid" placeholder="" required >
+    </div>
+    <br>
+
+    <div class="form-group">
+    <label for="uid">y</label>
+    <input type="text" class="form-control" id="uid" placeholder="" required >
+    </div>
+    <br>
+
+    <div class="form-group">
+    <label for="uid">r</label>
+    <input type="text" class="form-control" id="uid" placeholder="" required >
+    </div>
+    <br>
+
+    <div class="form-group">
+    <label for="uid">units(optional)</label>
+    <input type="text" class="form-control" id="uid" placeholder="" required >
+    </div>
+    <br>
+
+
+    <h4>Add Rectangle</h4>
+
+    <div class="form-group">
+    <label for="uid">x</label>
+    <input type="text" class="form-control" id="uid" placeholder="" required >
+    </div>
+    <br>
+
+    <div class="form-group">
+    <label for="uid">y</label>
+    <input type="text" class="form-control" id="uid" placeholder="" required >
+    </div>
+    <br>
+
+    <div class="form-group">
+    <label for="uid">width</label>
+    <input type="text" class="form-control" id="uid" placeholder="" required >
+    </div>
+    <br>
+
+    <div class="form-group">
+    <label for="uid">height</label>
+    <input type="text" class="form-control" id="uid" placeholder="" required >
+    </div>
+    <br>
+
+
+
+
+    <h4>Add Path</h4>
+
+
+    <div class="form-group">
+    <label for="uid">name</label>
+    <input type="text" class="form-control" id="uid" placeholder="" required >
+    </div>
+    <br>
+
+    <div class="form-group">
+    <label for="uid">value</label>
+    <input type="text" class="form-control" id="uid" placeholder="" required >
+    </div>
+    <br>
+
+
+    <h4>Add Group</h4>
+
+    <div class="form-group">
+    <label for="uid">Add shape</label>
+    <input type="text" class="form-control" id="uid" placeholder="" required >
+    </div>
+    <br>
+
+
+    <button type="button" onclick="createShape();">Create</button>
+
+
+
+
+
+        <h1>Add Shape</h1>
+
+
+        <div class="form-group">
+        <label for="uid">Enter filename</label>
+        <input type="text" class="form-control" id="uid" placeholder="" required >
+        </div>
+        <br>
+
+        <div class="form-group">
+        <label for="uid">Enter shape</label>
+        <input type="text" class="form-control" id="uid" placeholder="" required >
+        </div>
+        <br>
+
+        <div class="form-group">
+        <label for="uid">Enter new size</label>
+        <input type="text" class="form-control" id="uid" placeholder="" required >
+        </div>
+        <br>
+
+      <button type="button" onclick="scale();">Create</button>
+
+
+
+    <!-- Leave me at the bottom of body -->
+    <script src="/index.js"></script>
+</body>
+</html>
